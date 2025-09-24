@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../presentation/splash_screen/splash_screen.dart';
+import '../presentation/login_screen/login_screen.dart';
+import '../presentation/notification_center/notification_center.dart';
 import '../presentation/product_detail/product_detail.dart';
 import '../presentation/home_dashboard/home_dashboard.dart';
 import '../presentation/promo_and_membership/promo_and_membership.dart';
@@ -8,7 +11,10 @@ import '../presentation/product_catalog/product_catalog.dart';
 
 class AppRoutes {
   // TODO: Add your routes here
-  static const String initial = '/home-dashboard';
+  static const String initial = '/splash-screen';
+  static const String splashScreen = '/splash-screen';
+  static const String loginScreen = '/login-screen';
+  static const String notificationCenter = '/notification-center';
   static const String productDetail = '/product-detail';
   static const String homeDashboard = '/home-dashboard';
   static const String promoAndMembership = '/promo-and-membership';
@@ -17,7 +23,10 @@ class AppRoutes {
   static const String productCatalog = '/product-catalog';
 
   static Map<String, WidgetBuilder> routes = {
-    initial: (context) => const ProductDetail(),
+    initial: (context) => const SplashScreen(),
+    splashScreen: (context) => const SplashScreen(),
+    loginScreen: (context) => const LoginScreen(),
+    notificationCenter: (context) => const NotificationCenter(),
     productDetail: (context) => const ProductDetail(),
     homeDashboard: (context) => const HomeDashboard(),
     promoAndMembership: (context) => const PromoAndMembership(),
