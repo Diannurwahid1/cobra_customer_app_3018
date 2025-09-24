@@ -250,7 +250,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   : AppTheme.lightTheme.colorScheme.onSurfaceVariant,
               size: 24,
             ),
-            label: 'Dashboard',
+            label: 'Dashboardaa',
           ),
           BottomNavigationBarItem(
             icon: CustomIconWidget(
