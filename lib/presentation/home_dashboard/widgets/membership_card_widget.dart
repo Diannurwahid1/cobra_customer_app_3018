@@ -23,7 +23,7 @@ class MembershipCardWidget extends StatelessWidget {
 
     return Container(
       width: 90.w,
-      margin: EdgeInsets.symmetric(vertical: 1.h),
+      margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -39,7 +39,7 @@ class MembershipCardWidget extends StatelessWidget {
             color:
                 AppTheme.lightTheme.colorScheme.primary.withValues(alpha: 0.3),
             blurRadius: 12,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -65,26 +65,29 @@ class MembershipCardWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Member ${membershipData["level"]}',
-                          style: AppTheme.lightTheme.textTheme.titleMedium
-                              ?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Member ${membershipData["level"]}',
+                            style: AppTheme.lightTheme.textTheme.titleMedium
+                                ?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 0.5.h),
-                        Text(
-                          membershipData["customerName"],
-                          style: AppTheme.lightTheme.textTheme.bodyMedium
-                              ?.copyWith(
-                            color: Colors.white.withValues(alpha: 0.9),
+                          SizedBox(height: 0.5.h),
+                          Text(
+                            membershipData["customerName"],
+                            style: AppTheme.lightTheme.textTheme.bodyMedium
+                                ?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Container(
                       padding:
@@ -165,6 +168,7 @@ class MembershipCardWidget extends StatelessWidget {
                     Navigator.pushNamed(context, '/promo-and-membership');
                   },
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'Lihat Benefit Lengkap',

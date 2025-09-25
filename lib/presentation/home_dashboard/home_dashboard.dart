@@ -35,39 +35,41 @@ class _HomeDashboardState extends State<HomeDashboard> {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Search bar
-            SearchBarWidget(),
+            const SearchBarWidget(),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Promotional carousel
-            PromotionalCarouselWidget(),
+            const PromotionalCarouselWidget(),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            // Membership card
-            MembershipCardWidget(),
+            // Membership card - centered
+            const Center(
+              child: MembershipCardWidget(),
+            ),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Quick access shortcuts
-            QuickAccessShortcutsWidget(),
+            const QuickAccessShortcutsWidget(),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Product highlights
-            ProductHighlightsWidget(),
+            const ProductHighlightsWidget(),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Recent orders
-            RecentOrdersWidget(),
+            const RecentOrdersWidget(),
 
-            SizedBox(height: 100), // Extra space for bottom navigation
+            const SizedBox(height: 100), // Extra space for bottom navigation
           ],
         ),
       ),
