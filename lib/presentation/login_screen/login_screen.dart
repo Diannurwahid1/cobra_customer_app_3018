@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../routes/app_routes.dart';
+import '../../theme/app_theme.dart';
 import './widgets/login_form_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -92,10 +95,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(5.w),
-                  child: CustomImageWidget(
-                    imageUrl: "assets/images/img_app_logo.svg",
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://www.cobradental.co.id/frontsite/themes/images/global/logo.png",
                     width: double.infinity,
                     height: double.infinity,
+                    fit: BoxFit.contain,
+                    placeholder:
+                        (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              AppTheme.primaryLight,
+                            ),
+                          ),
+                        ),
+                    errorWidget:
+                        (context, url, error) => Icon(
+                          Icons.image_not_supported,
+                          color: AppTheme.primaryLight,
+                          size: 8.w,
+                        ),
                   ),
                 ),
               ),
