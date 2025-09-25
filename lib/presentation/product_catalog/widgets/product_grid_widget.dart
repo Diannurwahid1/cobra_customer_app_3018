@@ -32,11 +32,11 @@ class ProductGridWidget extends StatelessWidget {
         return false;
       },
       child: GridView.builder(
-        padding: EdgeInsets.all(4.w),
+        padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 8.h),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 3.w,
-          mainAxisSpacing: 3.w,
+          crossAxisSpacing: 9.w,
+          mainAxisSpacing: 9.w,
           childAspectRatio: 0.75,
         ),
         itemCount: products.length + (isLoading ? 4 : 0),
@@ -46,12 +46,28 @@ class ProductGridWidget extends StatelessWidget {
           }
 
           final product = products[index];
-          return ProductCardWidget(
-            product: product,
-            onTap: () => onProductTap?.call(product),
-            onOrderTap: () => onOrderTap?.call(product),
-            onWishlistTap: () => _handleWishlist(product),
-            onShareTap: () => _handleShare(product),
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .shadow
+                      .withValues(alpha: 0.1),
+                  blurRadius: 12,
+                  offset: Offset(0, 4),
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: ProductCardWidget(
+              product: product,
+              onTap: () => onProductTap?.call(product),
+              onOrderTap: () => onOrderTap?.call(product),
+              onWishlistTap: () => _handleWishlist(product),
+              onShareTap: () => _handleShare(product),
+            ),
           );
         },
       ),
@@ -67,9 +83,10 @@ class ProductGridWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.08),
-            blurRadius: 8,
-            offset: Offset(0, 2),
+            color: colorScheme.shadow.withValues(alpha: 0.1),
+            blurRadius: 12,
+            offset: Offset(0, 4),
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -81,8 +98,9 @@ class ProductGridWidget extends StatelessWidget {
             flex: 3,
             child: Container(
               width: double.infinity,
+              margin: EdgeInsets.all(2.w),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius: BorderRadius.circular(8),
                 color: colorScheme.outline.withValues(alpha: 0.1),
               ),
               child: Center(
@@ -99,7 +117,7 @@ class ProductGridWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: EdgeInsets.all(3.w),
+              padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 3.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -120,7 +138,7 @@ class ProductGridWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  SizedBox(height: 1.h),
+                  SizedBox(height: 1.5.h),
                   Container(
                     height: 2.h,
                     width: 50.w,
@@ -129,7 +147,7 @@ class ProductGridWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  SizedBox(height: 1.5.h),
+                  Spacer(),
                   Container(
                     height: 4.h,
                     width: double.infinity,

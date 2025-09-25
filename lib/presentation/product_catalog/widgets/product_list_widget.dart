@@ -30,9 +30,9 @@ class ProductListWidget extends StatelessWidget {
         return false;
       },
       child: ListView.separated(
-        padding: EdgeInsets.all(4.w),
+        padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 8.h),
         itemCount: products.length + (isLoading ? 3 : 0),
-        separatorBuilder: (context, index) => SizedBox(height: 3.w),
+        separatorBuilder: (context, index) => SizedBox(height: 4.w),
         itemBuilder: (context, index) {
           if (index >= products.length) {
             return _buildSkeletonListItem(context);
@@ -53,15 +53,17 @@ class ProductListWidget extends StatelessWidget {
       onTap: () => onProductTap?.call(product),
       onLongPress: () => _showQuickActions(context, product),
       child: Container(
-        padding: EdgeInsets.all(3.w),
+        padding: EdgeInsets.all(4.w),
+        margin: EdgeInsets.symmetric(horizontal: 1.w),
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.08),
-              blurRadius: 8,
-              offset: Offset(0, 2),
+              color: colorScheme.shadow.withValues(alpha: 0.1),
+              blurRadius: 12,
+              offset: Offset(0, 4),
+              spreadRadius: 1,
             ),
           ],
         ),
@@ -69,8 +71,8 @@ class ProductListWidget extends StatelessWidget {
           children: [
             // Product Image
             Container(
-              width: 20.w,
-              height: 20.w,
+              width: 22.w,
+              height: 22.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: colorScheme.surface,
@@ -79,14 +81,14 @@ class ProductListWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: CustomImageWidget(
                   imageUrl: product['image'] as String? ?? '',
-                  width: 20.w,
-                  height: 20.w,
+                  width: 22.w,
+                  height: 22.w,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
 
-            SizedBox(width: 3.w),
+            SizedBox(width: 4.w),
 
             // Product Details
             Expanded(
@@ -109,7 +111,7 @@ class ProductListWidget extends StatelessWidget {
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),
-                  SizedBox(height: 1.h),
+                  SizedBox(height: 1.5.h),
                   Text(
                     product['price'] as String? ?? '',
                     style: theme.textTheme.titleMedium?.copyWith(
@@ -121,7 +123,7 @@ class ProductListWidget extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: 3.w),
+            SizedBox(width: 4.w),
 
             // Order Button
             SizedBox(
@@ -132,7 +134,7 @@ class ProductListWidget extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.accentLight,
                   foregroundColor: Colors.black,
-                  elevation: 0,
+                  elevation: 2,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -157,15 +159,17 @@ class ProductListWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: EdgeInsets.all(3.w),
+      padding: EdgeInsets.all(4.w),
+      margin: EdgeInsets.symmetric(horizontal: 1.w),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.08),
-            blurRadius: 8,
-            offset: Offset(0, 2),
+            color: colorScheme.shadow.withValues(alpha: 0.1),
+            blurRadius: 12,
+            offset: Offset(0, 4),
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -173,8 +177,8 @@ class ProductListWidget extends StatelessWidget {
         children: [
           // Image skeleton
           Container(
-            width: 20.w,
-            height: 20.w,
+            width: 22.w,
+            height: 22.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: colorScheme.outline.withValues(alpha: 0.1),
@@ -188,7 +192,7 @@ class ProductListWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: 3.w),
+          SizedBox(width: 4.w),
 
           // Content skeleton
           Expanded(
@@ -212,7 +216,7 @@ class ProductListWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                SizedBox(height: 1.h),
+                SizedBox(height: 1.5.h),
                 Container(
                   height: 2.h,
                   width: 30.w,
@@ -225,7 +229,7 @@ class ProductListWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(width: 3.w),
+          SizedBox(width: 4.w),
 
           // Button skeleton
           Container(

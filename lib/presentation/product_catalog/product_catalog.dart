@@ -172,10 +172,10 @@ class _ProductCatalogState extends State<ProductCatalog> {
       body: SafeArea(
         child: Column(
           children: [
-            // Sticky Header
+            // Sticky Header with improved spacing
             Container(
               color: colorScheme.surface,
-              padding: EdgeInsets.all(4.w),
+              padding: EdgeInsets.fromLTRB(4.w, 3.h, 4.w, 2.h),
               child: Column(
                 children: [
                   // Search Bar and View Toggle
@@ -224,7 +224,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
                         ),
                       ),
 
-                      SizedBox(width: 3.w),
+                      SizedBox(width: 4.w),
 
                       // View Toggle Button
                       Container(
@@ -249,14 +249,32 @@ class _ProductCatalogState extends State<ProductCatalog> {
                     ],
                   ),
 
-                  // Filter Chips
+                  // Filter Chips with improved spacing
                   if (_hasActiveFilters()) ...[
-                    SizedBox(height: 2.h),
+                    SizedBox(height: 2.5.h),
                     _buildFilterChips(),
+                    SizedBox(height: 1.h),
                   ],
                 ],
               ),
             ),
+
+            // Divider between header and content
+            Container(
+              height: 1,
+              margin: EdgeInsets.symmetric(horizontal: 4.w),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    colorScheme.outline.withValues(alpha: 0),
+                    colorScheme.outline.withValues(alpha: 0.1),
+                    colorScheme.outline.withValues(alpha: 0),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(height: 1.h),
 
             // Product List/Grid
             Expanded(
@@ -285,21 +303,25 @@ class _ProductCatalogState extends State<ProductCatalog> {
         ),
       ),
 
-      // Floating Sort Button
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showSortBottomSheet,
-        backgroundColor: AppTheme.accentLight,
-        foregroundColor: Colors.black,
-        icon: CustomIconWidget(
-          iconName: 'sort',
-          color: Colors.black,
-          size: 20,
-        ),
-        label: Text(
-          'Urutkan',
-          style: theme.textTheme.labelLarge?.copyWith(
+      // Floating Sort Button with improved positioning
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 2.h),
+        child: FloatingActionButton.extended(
+          onPressed: _showSortBottomSheet,
+          backgroundColor: AppTheme.accentLight,
+          foregroundColor: Colors.black,
+          elevation: 4,
+          icon: CustomIconWidget(
+            iconName: 'sort',
             color: Colors.black,
-            fontWeight: FontWeight.w600,
+            size: 20,
+          ),
+          label: Text(
+            'Urutkan',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
@@ -411,12 +433,13 @@ class _ProductCatalogState extends State<ProductCatalog> {
       );
     }
 
-    return SizedBox(
+    return Container(
       height: 5.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: 1.w),
         itemCount: chips.length,
-        separatorBuilder: (context, index) => SizedBox(width: 2.w),
+        separatorBuilder: (context, index) => SizedBox(width: 2.5.w),
         itemBuilder: (context, index) => chips[index],
       ),
     );

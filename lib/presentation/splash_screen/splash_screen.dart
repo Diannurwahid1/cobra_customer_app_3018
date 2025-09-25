@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import '../../routes/app_routes.dart';
-import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -111,27 +108,17 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(8.w),
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "https://www.cobradental.co.id/frontsite/themes/images/global/logo.png",
+                            child: Image.asset(
+                              'assets/images/image-1758786989041.png',
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.contain,
-                              placeholder:
-                                  (context, url) => Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        AppTheme.primaryLight,
-                                      ),
-                                    ),
-                                  ),
-                              errorWidget:
-                                  (context, url, error) => Icon(
-                                    Icons.image_not_supported,
-                                    color: AppTheme.primaryLight,
-                                    size: 12.w,
-                                  ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                Icons.image_not_supported,
+                                color: AppTheme.primaryLight,
+                                size: 12.w,
+                              ),
                             ),
                           ),
                         ),
