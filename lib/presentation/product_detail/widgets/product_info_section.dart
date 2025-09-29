@@ -76,44 +76,61 @@ class ProductInfoSection extends StatelessWidget {
           ),
           SizedBox(height: 3.h),
 
-          // Price Section
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                price,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppTheme.primaryLight,
-                ),
-              ),
-              SizedBox(width: 3.w),
-              if (discount > 0) ...[
-                Text(
-                  originalPrice,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    decoration: TextDecoration.lineThrough,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                SizedBox(width: 2.w),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
-                  decoration: BoxDecoration(
-                    color: AppTheme.errorLight,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '-$discount%',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+          // Price Section (responsive & no overflow)
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 3.w,
+                runSpacing: 1.h,
+                children: [
+                  // Current Price
+                  Text(
+                    price,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.primaryLight,
                     ),
                   ),
-                ),
-              ],
-            ],
+                  if (discount > 0) ...[
+                    // Original price (strikethrough)
+                    Text(
+                      originalPrice,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        decoration: TextDecoration.lineThrough,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    // Discount badge
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: constraints.maxWidth * 0.28,
+                        minHeight: 28,
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 2.w,
+                        vertical: 0.6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.errorLight,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          '-$discount%',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              );
+            },
           ),
           SizedBox(height: 4.h),
 

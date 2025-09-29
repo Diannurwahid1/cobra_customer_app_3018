@@ -43,84 +43,60 @@ class ProductCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Product Image
-            Expanded(
-              flex: 3,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  color: colorScheme.surface,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                  child: CustomImageWidget(
-                    imageUrl: product['image'] as String? ?? '',
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                // Maintain a consistent aspect ratio across devices
+                final imageHeight = constraints.maxWidth * 0.72; // 4:3-ish
+                return Container(
+                  width: double.infinity,
+                  height: imageHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    color: colorScheme.surface,
                   ),
-                ),
-              ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: CustomImageWidget(
+                      imageUrl: product['image'] as String? ?? '',
+                      width: double.infinity,
+                      height: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
             ),
 
             // Product Details
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.all(3.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Product Name
-                    Text(
-                      product['name'] as String? ?? '',
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        height: 1.2,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: EdgeInsets.fromLTRB(3.w, 2.2.w, 3.w, 3.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product Name
+                  Text(
+                    product['name'] as String? ?? '',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontSize: (theme.textTheme.titleSmall?.fontSize ?? 14) * 0.98,
+                      fontWeight: FontWeight.w500,
+                      height: 1.2,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
 
-                    SizedBox(height: 1.h),
+                  SizedBox(height: 0.8.h),
 
-                    // Price
-                    Text(
-                      product['price'] as String? ?? '',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: AppTheme.primaryLight,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  // Price
+                  Text(
+                    product['price'] as String? ?? '',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontSize: (theme.textTheme.titleMedium?.fontSize ?? 16) * 0.98,
+                      color: AppTheme.primaryLight,
+                      fontWeight: FontWeight.w600,
                     ),
-
-                    SizedBox(height: 1.5.h),
-
-                    // Order Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 4.h,
-                      child: ElevatedButton(
-                        onPressed: onOrderTap,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.accentLight,
-                          foregroundColor: Colors.black,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        ),
-                        child: Text(
-                          'Pesan Sekarang',
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -83,7 +83,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               icon: Icon(Icons.account_circle_outlined),
               onPressed: () {
-                Navigator.pushNamed(context, '/profile-and-settings');
+                // Navigate to root Profile tab without stacking
+                Navigator.pushReplacementNamed(context, '/profile-and-settings');
               },
             ),
           ],
@@ -144,7 +145,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.account_circle_outlined),
           onPressed: () {
-            Navigator.pushNamed(context, '/profile-and-settings');
+            // Navigate to root Profile tab without stacking
+            Navigator.pushReplacementNamed(context, '/profile-and-settings');
           },
         ),
       ],
@@ -188,13 +190,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onSelected: (value) {
                 switch (value) {
                   case 'profile':
-                    Navigator.pushNamed(context, '/profile-and-settings');
+                    Navigator.pushReplacementNamed(context, '/profile-and-settings');
                     break;
                   case 'finance':
-                    Navigator.pushNamed(context, '/finance-dashboard');
+                    Navigator.pushReplacementNamed(context, '/finance-dashboard');
                     break;
                   case 'membership':
-                    Navigator.pushNamed(context, '/promo-and-membership');
+                    Navigator.pushReplacementNamed(context, '/promo-and-membership');
                     break;
                 }
               },

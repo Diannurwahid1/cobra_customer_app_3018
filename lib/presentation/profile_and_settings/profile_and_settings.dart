@@ -66,6 +66,7 @@ class _ProfileAndSettingsState extends State<ProfileAndSettings> {
         title: "Profil & Pengaturan",
         variant: CustomAppBarVariant.minimal,
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(4.w),

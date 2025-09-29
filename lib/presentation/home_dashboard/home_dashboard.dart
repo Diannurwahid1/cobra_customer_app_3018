@@ -25,6 +25,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Dashboard',
+        automaticallyImplyLeading: false,
         actions: [
           const NotificationWidget(),
           IconButton(
@@ -57,7 +58,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
             const SizedBox(height: 24),
 
             // Quick access shortcuts
-            const QuickAccessShortcutsWidget(),
+            const Center(
+              child: QuickAccessShortcutsWidget(),
+            ),
 
             const SizedBox(height: 24),
 

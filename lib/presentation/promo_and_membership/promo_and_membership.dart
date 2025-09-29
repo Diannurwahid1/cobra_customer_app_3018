@@ -198,6 +198,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
             fontSize: 18.sp,
           ),
         ),
+        automaticallyImplyLeading: false,
         backgroundColor: colorScheme.surface,
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
@@ -205,7 +206,12 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/profile-and-settings');
+              // Go to a root tab: reset the stack to avoid back button
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/profile-and-settings',
+                (route) => false,
+              );
             },
             icon: CustomIconWidget(
               iconName: 'account_circle_outlined',

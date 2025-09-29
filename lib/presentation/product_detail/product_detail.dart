@@ -205,34 +205,42 @@ Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan da
                 backgroundColor: colorScheme.surface,
                 foregroundColor: colorScheme.onSurface,
                 elevation: 0,
-                leading: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: CustomIconWidget(
-                      iconName: 'arrow_back',
-                      color: Colors.white,
-                      size: 20,
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(24),
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.45),
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: CustomIconWidget(
+                        iconName: 'arrow_back',
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
                 actions: [
-                  IconButton(
-                    onPressed: _onSharePressed,
-                    icon: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: CustomIconWidget(
-                        iconName: 'share',
-                        color: Colors.white,
-                        size: 20,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8, top: 8),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24),
+                      onTap: _onSharePressed,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: CustomIconWidget(
+                          iconName: 'share',
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),

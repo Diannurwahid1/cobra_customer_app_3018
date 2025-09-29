@@ -23,21 +23,43 @@ class ProductGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
+    // Responsive grid columns
+    int crossAxisCount;
+    if (width >= 1024) {
+      crossAxisCount = 4;
+    } else if (width >= 768) {
+      crossAxisCount = 3;
+    } else {
+      crossAxisCount = 2;
+    }
+
+    // Responsive spacing
+    final double spacing = (width >= 768) ? 3.w : 4.w; // slightly wider spacing on phones
+
+    // Responsive card aspect ratio (width / height)
+    final double cardAspectRatio = crossAxisCount >= 4
+        ? 0.68
+        : (crossAxisCount == 3 ? 0.7 : 0.72);
+
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+        // Trigger load more slightly before reaching the end for smoother UX
+        if (scrollInfo.metrics.pixels >=
+                scrollInfo.metrics.maxScrollExtent - 100 &&
             !isLoading) {
           onLoadMore?.call();
         }
         return false;
       },
       child: GridView.builder(
-        padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 8.h),
+        padding: EdgeInsets.fromLTRB(4.w, 2.h, 4.w, 8.h),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 9.w,
-          mainAxisSpacing: 9.w,
-          childAspectRatio: 0.75,
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: spacing,
+          mainAxisSpacing: spacing,
+          childAspectRatio: cardAspectRatio,
         ),
         itemCount: products.length + (isLoading ? 4 : 0),
         itemBuilder: (context, index) {
@@ -77,91 +99,74 @@ class ProductGridWidget extends StatelessWidget {
   Widget _buildSkeletonCard(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.1),
-            blurRadius: 12,
-            offset: Offset(0, 4),
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image skeleton
-          Expanded(
-            flex: 3,
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(2.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: colorScheme.outline.withValues(alpha: 0.1),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double imgSize = constraints.maxWidth - 4.w; // square-ish image
+        return Container(
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withValues(alpha: 0.1),
+                blurRadius: 12,
+                offset: Offset(0, 4),
+                spreadRadius: 1,
               ),
-              child: Center(
-                child: CustomIconWidget(
-                  iconName: 'image',
-                  color: colorScheme.outline.withValues(alpha: 0.3),
-                  size: 32,
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(3.w, 2.w, 3.w, 3.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: imgSize * 0.75,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                  ),
+                  child: Center(
+                    child: CustomIconWidget(
+                      iconName: 'image',
+                      color: colorScheme.outline.withValues(alpha: 0.3),
+                      size: 32,
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 1.6.h),
+                Container(
+                  height: 1.8.h,
+                  width: constraints.maxWidth * 0.9,
+                  decoration: BoxDecoration(
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                SizedBox(height: 1.h),
+                Container(
+                  height: 1.4.h,
+                  width: constraints.maxWidth * 0.7,
+                  decoration: BoxDecoration(
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  height: 3.6.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: colorScheme.outline.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ],
             ),
           ),
-
-          // Content skeleton
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(3.w, 1.h, 3.w, 3.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 2.h,
-                    width: 80.w,
-                    decoration: BoxDecoration(
-                      color: colorScheme.outline.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  SizedBox(height: 1.h),
-                  Container(
-                    height: 1.5.h,
-                    width: 60.w,
-                    decoration: BoxDecoration(
-                      color: colorScheme.outline.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  SizedBox(height: 1.5.h),
-                  Container(
-                    height: 2.h,
-                    width: 50.w,
-                    decoration: BoxDecoration(
-                      color: colorScheme.outline.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    height: 4.h,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: colorScheme.outline.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

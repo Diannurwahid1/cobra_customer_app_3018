@@ -201,21 +201,31 @@ class _ProductImageGalleryState extends State<ProductImageGallery> {
                 ),
               ),
             ),
+          // Top-right Zoom button with consistent touch target and safe padding
           Positioned(
-            top: 16,
-            right: 16,
-            child: GestureDetector(
-              onTap: _openFullScreenGallery,
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: CustomIconWidget(
-                  iconName: 'zoom_in',
-                  color: Colors.white,
-                  size: 20,
+            top:11,
+            right: 60,
+            child: SafeArea(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _openFullScreenGallery,
+                  borderRadius: BorderRadius.circular(24),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.45),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Center(
+                      child: CustomIconWidget(
+                        iconName: 'zoom_in',
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

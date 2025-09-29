@@ -84,8 +84,10 @@ class CustomBottomBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {
+        if (index == currentIndex) return;
         onTap(index);
-        Navigator.pushNamed(context, _items[index].route);
+        // Replace current route instead of pushing a new one to avoid back button
+        Navigator.pushReplacementNamed(context, _items[index].route);
       },
       type: BottomNavigationBarType.fixed,
       backgroundColor:
@@ -116,8 +118,10 @@ class CustomBottomBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {
+        if (index == currentIndex) return;
         onTap(index);
-        Navigator.pushNamed(context, _items[index].route);
+        // Replace current route to keep root tabs without back stack
+        Navigator.pushReplacementNamed(context, _items[index].route);
       },
       type: BottomNavigationBarType.fixed,
       backgroundColor:
@@ -177,8 +181,10 @@ class CustomBottomBar extends StatelessWidget {
         child: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
+            if (index == currentIndex) return;
             onTap(index);
-            Navigator.pushNamed(context, _items[index].route);
+            // Replace route to prevent piling up pages
+            Navigator.pushReplacementNamed(context, _items[index].route);
           },
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
@@ -228,8 +234,10 @@ class CustomBottomBar extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
+              if (index == currentIndex) return;
               onTap(index);
-              Navigator.pushNamed(context, item.route);
+              // Replace route for root tabs to avoid back button
+              Navigator.pushReplacementNamed(context, item.route);
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 200),

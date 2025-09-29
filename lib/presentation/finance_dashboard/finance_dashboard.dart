@@ -282,6 +282,7 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
             color: AppTheme.lightTheme.colorScheme.onSurface,
           ),
         ),
+        automaticallyImplyLeading: false,
         backgroundColor: AppTheme.lightTheme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: false,
