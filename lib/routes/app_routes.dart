@@ -8,6 +8,9 @@ import '../presentation/promo_and_membership/promo_and_membership.dart';
 import '../presentation/profile_and_settings/profile_and_settings.dart';
 import '../presentation/finance_dashboard/finance_dashboard.dart';
 import '../presentation/product_catalog/product_catalog.dart';
+import '../presentation/shopping_cart/shopping_cart.dart';
+import '../presentation/checkout_process/checkout_process.dart';
+import '../presentation/order_tracking/order_tracking.dart';
 
 class AppRoutes {
   // TODO: Add your routes here
@@ -21,6 +24,9 @@ class AppRoutes {
   static const String profileAndSettings = '/profile-and-settings';
   static const String financeDashboard = '/finance-dashboard';
   static const String productCatalog = '/product-catalog';
+  static const String shoppingCart = '/shopping-cart';
+  static const String checkoutProcess = '/checkout-process';
+  static const String orderTracking = '/order-tracking';
 
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashScreen(),
@@ -33,6 +39,9 @@ class AppRoutes {
     profileAndSettings: (context) => const ProfileAndSettings(),
     financeDashboard: (context) => const FinanceDashboard(),
     productCatalog: (context) => const ProductCatalog(),
+    shoppingCart: (context) => const ShoppingCart(),
+    checkoutProcess: (context) => const CheckoutProcess(),
+    orderTracking: (context) => const OrderTracking(),
     // TODO: Add your other routes here
   };
 }

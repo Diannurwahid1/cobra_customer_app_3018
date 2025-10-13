@@ -33,7 +33,23 @@ class _StickyBottomBarState extends State<StickyBottomBar> {
   void _onBuyNowPressed() {
     // Haptic feedback for iOS
     HapticFeedback.lightImpact();
-    widget.onBuyNow();
+
+    // Navigate directly to checkout process with selected quantity
+    Navigator.pushNamed(
+      context,
+      AppRoutes.checkoutProcess,
+      arguments: {
+        'product': {
+          'name':
+              'Dental Unit Chair Premium DU-3000', // Get from parent if needed
+          'price': widget.price,
+          'image':
+              'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop',
+        },
+        'quantity': _quantity,
+        'directCheckout': true,
+      },
+    );
   }
 
   void _onAddToCartPressed() {

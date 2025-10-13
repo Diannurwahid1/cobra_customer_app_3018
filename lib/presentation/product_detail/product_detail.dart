@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import '../../widgets/custom_icon_widget.dart';
 import './widgets/product_image_gallery.dart';
 import './widgets/product_info_section.dart';
 import './widgets/product_tabs_section.dart';
@@ -150,11 +149,19 @@ Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan da
 
   void _onOrderPressed() {
     HapticFeedback.lightImpact();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Mengarahkan ke halaman pemesanan...'),
-        duration: Duration(seconds: 2),
-      ),
+    // Navigate directly to checkout process with product data
+    Navigator.pushNamed(
+      context,
+      AppRoutes.checkoutProcess,
+      arguments: {
+        'product': {
+          'id': productData['id'],
+          'name': productData['name'],
+          'price': productData['price'],
+          'image': (productData['images'] as List).first,
+        },
+        'quantity': 1,
+      },
     );
   }
 
@@ -168,11 +175,21 @@ Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan da
   }
 
   void _onBuyNow() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Mengarahkan ke checkout...'),
-        duration: Duration(seconds: 2),
-      ),
+    HapticFeedback.lightImpact();
+    // Navigate directly to checkout process with product data and quantity
+    Navigator.pushNamed(
+      context,
+      AppRoutes.checkoutProcess,
+      arguments: {
+        'product': {
+          'id': productData['id'],
+          'name': productData['name'],
+          'price': productData['price'],
+          'image': (productData['images'] as List).first,
+        },
+        'quantity': 1, // Default quantity, will be updated by sticky bar
+        'directCheckout': true, // Flag to indicate direct checkout
+      },
     );
   }
 
