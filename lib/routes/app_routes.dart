@@ -11,6 +11,7 @@ import '../presentation/product_catalog/product_catalog.dart';
 import '../presentation/shopping_cart/shopping_cart.dart';
 import '../presentation/checkout_process/checkout_process.dart';
 import '../presentation/order_tracking/order_tracking.dart';
+import '../presentation/order_detail_tracking/order_detail_tracking.dart';
 
 class AppRoutes {
   // TODO: Add your routes here
@@ -27,6 +28,7 @@ class AppRoutes {
   static const String shoppingCart = '/shopping-cart';
   static const String checkoutProcess = '/checkout-process';
   static const String orderTracking = '/order-tracking';
+  static const String orderDetailTracking = '/order-detail-tracking';
 
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const SplashScreen(),
@@ -42,6 +44,7 @@ class AppRoutes {
     shoppingCart: (context) => const ShoppingCart(),
     checkoutProcess: (context) => const CheckoutProcess(),
     orderTracking: (context) => const OrderTracking(),
+    orderDetailTracking: (context) => const OrderDetailTracking(),
     // TODO: Add your other routes here
   };
 }

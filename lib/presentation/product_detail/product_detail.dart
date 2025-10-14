@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../routes/app_routes.dart';
+import '../../widgets/custom_icon_widget.dart';
 import './widgets/product_image_gallery.dart';
 import './widgets/product_info_section.dart';
 import './widgets/product_tabs_section.dart';
@@ -20,96 +22,97 @@ class _ProductDetailState extends State<ProductDetail> {
   final ScrollController _scrollController = ScrollController();
   bool _showStickyBar = false;
 
-  // Mock product data
+  // Mock product data - Updated with new dental products
   final Map<String, dynamic> productData = {
-    "id": 1,
-    "name": "Dental Unit Chair Premium DU-3000",
-    "price": "Rp 125.000.000",
-    "originalPrice": "Rp 150.000.000",
-    "discount": 17,
-    "rating": 4.8,
-    "reviewCount": 24,
+    "id": 100,
+    "name": "C-Puma Dental Micromotor",
+    "sku": "1555",
+    "price": "Rp 15.500.000",
+    "originalPrice": "Rp 18.000.000",
+    "discount": 14,
+    "rating": 4.9,
+    "reviewCount": 18,
     "images": [
+      "https://www.cobradental.co.id/userfiles/product/6805fcb91d473.jpg",
       "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop",
     ],
     "description":
-        """Unit dental chair premium dengan teknologi terdepan untuk klinik gigi modern. Dilengkapi dengan sistem hidrolik yang halus, kontrol elektronik yang presisi, dan desain ergonomis yang memberikan kenyamanan maksimal bagi dokter dan pasien.
+        """Dental micromotor C-Puma dengan teknologi canggih untuk berbagai prosedur dental. Dilengkapi dengan power 120W yang memberikan tenaga optimal, kecepatan variabel 100–200.000 rpm yang dapat disesuaikan dengan kebutuhan prosedur.
 
-Fitur unggulan meliputi lampu LED dengan intensitas cahaya yang dapat disesuaikan, sistem suction yang powerful, dan water spray dengan kontrol suhu otomatis. Kursi dapat diatur dalam berbagai posisi dengan mudah menggunakan kontrol panel yang intuitif.
+Fitur LED dengan intensitas >25.000 lux memberikan pencahayaan yang sempurna untuk visibilitas maksimal selama prosedur. Torsi 3.5 N·cm memastikan performa yang stabil dan konsisten. Dengan berat hanya 87 g, memberikan kenyamanan optimal bagi dokter selama penggunaan jangka panjang.
 
-Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan dan daya tahan jangka panjang. Cocok untuk berbagai prosedur dental mulai dari pemeriksaan rutin hingga perawatan kompleks.""",
+Desain ergonomis dan material berkualitas tinggi menjadikan C-Puma pilihan ideal untuk klinik dental modern. Kompatibel dengan berbagai attachment dan mudah untuk maintenance.""",
     "specifications": [
-      {"label": "Dimensi", "value": "180 x 120 x 85 cm"},
-      {"label": "Berat", "value": "280 kg"},
-      {"label": "Voltase", "value": "220V / 50Hz"},
-      {"label": "Daya", "value": "2200W"},
-      {"label": "Sistem Hidrolik", "value": "Elektro-hidrolik"},
-      {"label": "Lampu", "value": "LED 50.000 lux"},
-      {"label": "Water System", "value": "Automatic water control"},
-      {"label": "Suction", "value": "Dual suction system"},
-      {"label": "Material", "value": "Stainless steel + PU leather"},
-      {"label": "Garansi", "value": "3 tahun"},
+      {"label": "SKU", "value": "1555"},
+      {"label": "Power", "value": "120W"},
+      {"label": "Kecepatan", "value": "100–200.000 rpm"},
+      {"label": "LED Intensity", "value": ">25.000 lux"},
+      {"label": "Torsi", "value": "3.5 N·cm"},
+      {"label": "Berat", "value": "87 g"},
+      {"label": "Kategori", "value": "Dental Equipment"},
+      {"label": "Brand", "value": "Woodpecker"},
+      {"label": "Garansi", "value": "2 tahun"},
+      {"label": "Asal", "value": "Import"},
     ],
     "reviews": [
       {
-        "customerName": "Dr. Ahmad Santoso",
+        "customerName": "Dr. Andi Wijaya",
         "rating": 5,
-        "date": "15 Sep 2024",
+        "date": "12 Oct 2024",
         "comment":
-            "Unit dental chair yang sangat berkualitas. Pasien merasa nyaman dan kontrol yang mudah digunakan. Investasi yang sangat worth it untuk klinik."
+            "C-Puma sangat membantu dalam prosedur dental. Power yang kuat dan LED yang terang membuat pekerjaan menjadi lebih mudah dan presisi.",
       },
       {
-        "customerName": "Dr. Sari Indrawati",
+        "customerName": "Dr. Maya Sari",
         "rating": 5,
-        "date": "08 Sep 2024",
+        "date": "08 Oct 2024",
         "comment":
-            "Kualitas premium dengan harga yang kompetitif. Sistem hidrolik sangat halus dan lampu LED memberikan pencahayaan yang sempurna untuk prosedur."
+            "Kualitas build yang sangat baik, ringan di tangan, dan performa motor yang sangat stabil. Highly recommended untuk praktik dental.",
       },
       {
-        "customerName": "Dr. Budi Prasetyo",
+        "customerName": "Dr. Budi Hartono",
         "rating": 4,
-        "date": "02 Sep 2024",
+        "date": "05 Oct 2024",
         "comment":
-            "Produk bagus dengan fitur lengkap. Instalasi mudah dan tim support sangat membantu. Hanya perlu waktu adaptasi untuk menggunakan semua fitur."
+            "Produk berkualitas dengan harga yang reasonable. LED sangat membantu untuk pencahayaan area kerja. Overall sangat puas dengan performa.",
       },
     ],
   };
 
   final List<Map<String, dynamic>> relatedProducts = [
     {
-      "id": 2,
-      "name": "Dental X-Ray Unit Digital",
-      "price": "Rp 45.000.000",
-      "rating": 4.7,
-      "image":
-          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=300&fit=crop",
-    },
-    {
-      "id": 3,
-      "name": "Ultrasonic Scaler Pro",
+      "id": 101,
+      "name": "Light Curing Woodpecker LED D",
       "price": "Rp 8.500.000",
-      "rating": 4.6,
-      "image":
-          "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&h=300&fit=crop",
-    },
-    {
-      "id": 4,
-      "name": "LED Curing Light",
-      "price": "Rp 3.200.000",
       "rating": 4.8,
       "image":
-          "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=300&fit=crop",
+          "https://www.cobradental.co.id/userfiles/product/6805f9e653f38.png",
     },
     {
-      "id": 5,
-      "name": "Dental Compressor Silent",
+      "id": 102,
+      "name": "Ultrasonic Scaller UDS-K LED",
       "price": "Rp 12.000.000",
-      "rating": 4.5,
+      "rating": 4.9,
       "image":
-          "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=400&h=300&fit=crop",
+          "https://www.cobradental.co.id/userfiles/product/6805f5233b133.png",
+    },
+    {
+      "id": 103,
+      "name": "Dental Diode Laser LX 16 PLUS",
+      "price": "Rp 35.000.000",
+      "rating": 4.7,
+      "image":
+          "https://www.cobradental.co.id/userfiles/product/6805fb6add478.png",
+    },
+    {
+      "id": 104,
+      "name": "Light Curing LED B Woodpecker",
+      "price": "Rp 7.200.000",
+      "rating": 4.6,
+      "image":
+          "https://www.cobradental.co.id/userfiles/product/6805f699819c3.png",
     },
   ];
 
@@ -280,10 +283,12 @@ Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan da
               SliverToBoxAdapter(
                 child: ProductTabsSection(
                   description: productData['description'] as String,
-                  specifications: (productData['specifications'] as List)
-                      .cast<Map<String, String>>(),
-                  reviews: (productData['reviews'] as List)
-                      .cast<Map<String, dynamic>>(),
+                  specifications:
+                      (productData['specifications'] as List)
+                          .cast<Map<String, String>>(),
+                  reviews:
+                      (productData['reviews'] as List)
+                          .cast<Map<String, dynamic>>(),
                 ),
               ),
 
@@ -296,9 +301,7 @@ Material berkualitas tinggi dengan lapisan anti-bakteri memastikan kebersihan da
               ),
 
               // Bottom spacing for sticky bar
-              SliverToBoxAdapter(
-                child: SizedBox(height: 12.h),
-              ),
+              SliverToBoxAdapter(child: SizedBox(height: 12.h)),
             ],
           ),
 

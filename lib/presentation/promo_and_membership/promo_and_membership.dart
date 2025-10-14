@@ -6,6 +6,7 @@ import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_icon_widget.dart';
 import './widgets/filter_chips_widget.dart';
 import './widgets/membership_card_widget.dart';
+import './widgets/membership_levels_widget.dart';
 import './widgets/promo_carousel_widget.dart';
 import './widgets/voucher_card_widget.dart';
 
@@ -29,6 +30,9 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
     'Spesial',
   ];
 
+  // Current user membership level
+  final String _currentMembershipLevel = 'Gold';
+
   // Mock membership data
   final Map<String, dynamic> _membershipData = {
     "level": "Gold",
@@ -39,26 +43,26 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       {
         "title": "Diskon Eksklusif hingga 15%",
         "description":
-            "Dapatkan diskon khusus untuk produk pilihan setiap bulan"
+            "Dapatkan diskon khusus untuk produk pilihan setiap bulan",
       },
       {
         "title": "Gratis Ongkir untuk Pembelian di atas Rp 500.000",
-        "description": "Nikmati pengiriman gratis ke seluruh Indonesia"
+        "description": "Nikmati pengiriman gratis ke seluruh Indonesia",
       },
       {
         "title": "Akses Early Bird Sale",
-        "description": "Belanja lebih dulu sebelum promo dibuka untuk umum"
+        "description": "Belanja lebih dulu sebelum promo dibuka untuk umum",
       },
       {
         "title": "Customer Service Prioritas",
-        "description": "Layanan pelanggan khusus dengan respon lebih cepat"
+        "description": "Layanan pelanggan khusus dengan respon lebih cepat",
       },
       {
         "title": "Cashback Poin 2x Lipat",
         "description":
-            "Dapatkan poin reward dua kali lebih banyak setiap transaksi"
-      }
-    ]
+            "Dapatkan poin reward dua kali lebih banyak setiap transaksi",
+      },
+    ],
   };
 
   // Mock promotional data
@@ -73,7 +77,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
           "https://images.pexels.com/photos/6812540/pexels-photo-6812540.jpeg?auto=compress&cs=tinysrgb&w=800",
       "validUntil": "31 Des 2024",
       "isActive": true,
-      "category": "discount"
+      "category": "discount",
     },
     {
       "id": 2,
@@ -85,7 +89,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
           "https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=800",
       "validUntil": "15 Jan 2025",
       "isActive": true,
-      "category": "shipping"
+      "category": "shipping",
     },
     {
       "id": 3,
@@ -97,8 +101,8 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
           "https://images.pexels.com/photos/6812542/pexels-photo-6812542.jpeg?auto=compress&cs=tinysrgb&w=800",
       "validUntil": "28 Des 2024",
       "isActive": true,
-      "category": "cashback"
-    }
+      "category": "cashback",
+    },
   ];
 
   // Mock voucher data
@@ -112,7 +116,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 2.000.000",
       "category": "discount",
       "isUsed": false,
-      "isExpired": false
+      "isExpired": false,
     },
     {
       "id": 2,
@@ -123,7 +127,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 1.000.000",
       "category": "shipping",
       "isUsed": false,
-      "isExpired": false
+      "isExpired": false,
     },
     {
       "id": 3,
@@ -134,7 +138,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 3.000.000",
       "category": "cashback",
       "isUsed": false,
-      "isExpired": false
+      "isExpired": false,
     },
     {
       "id": 4,
@@ -145,7 +149,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 2.500.000",
       "category": "special",
       "isUsed": false,
-      "isExpired": false
+      "isExpired": false,
     },
     {
       "id": 5,
@@ -156,7 +160,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 1.500.000",
       "category": "discount",
       "isUsed": false,
-      "isExpired": true
+      "isExpired": true,
     },
     {
       "id": 6,
@@ -167,8 +171,8 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
       "minPurchase": "Rp 1.000.000",
       "category": "discount",
       "isUsed": true,
-      "isExpired": false
-    }
+      "isExpired": false,
+    },
   ];
 
   @override
@@ -228,10 +232,7 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
             fontWeight: FontWeight.w400,
             fontSize: 14.sp,
           ),
-          tabs: [
-            Tab(text: 'Promo'),
-            Tab(text: 'Voucher'),
-          ],
+          tabs: [Tab(text: 'Promo'), Tab(text: 'Voucher')],
         ),
       ),
       body: RefreshIndicator(
@@ -239,17 +240,14 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
         color: colorScheme.primary,
         child: Column(
           children: [
-            // Membership Card - Always visible
-            MembershipCardWidget(membershipData: _membershipData),
+            // Membership Levels - Always visible
+            MembershipLevelsWidget(currentLevel: _currentMembershipLevel),
 
             // Tab Content
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  _buildPromoTab(),
-                  _buildVoucherTab(),
-                ],
+                children: [_buildPromoTab(), _buildVoucherTab()],
               ),
             ),
           ],
@@ -279,9 +277,9 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
             child: Text(
               'Promo Terbaru',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16.sp,
-                  ),
+                fontWeight: FontWeight.w600,
+                fontSize: 16.sp,
+              ),
             ),
           ),
           SizedBox(height: 1.5.h),
@@ -299,16 +297,14 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
             margin: EdgeInsets.symmetric(horizontal: 5.w),
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withValues(alpha: 0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.primaryContainer.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Theme.of(context)
-                    .colorScheme
-                    .primary
-                    .withValues(alpha: 0.2),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.2),
               ),
             ),
             child: Row(
@@ -319,21 +315,20 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
                     children: [
                       Text(
                         'Jelajahi Produk Lainnya',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14.sp,
-                                ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                        ),
                       ),
                       SizedBox(height: 0.5.h),
                       Text(
                         'Temukan peralatan dental berkualitas dengan harga terbaik',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontSize: 11.sp,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 11.sp,
+                        ),
                       ),
                     ],
                   ),
@@ -346,8 +341,10 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 1.h,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -355,9 +352,9 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
                   child: Text(
                     'Browse',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 11.sp,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11.sp,
+                    ),
                   ),
                 ),
               ],
@@ -392,19 +389,20 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
 
         // Voucher List
         Expanded(
-          child: filteredVouchers.isEmpty
-              ? _buildEmptyVoucherState()
-              : ListView.builder(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: filteredVouchers.length,
-                  itemBuilder: (context, index) {
-                    final voucher = filteredVouchers[index];
-                    return VoucherCardWidget(
-                      voucher: voucher,
-                      onTap: () => _handleVoucherTap(voucher),
-                    );
-                  },
-                ),
+          child:
+              filteredVouchers.isEmpty
+                  ? _buildEmptyVoucherState()
+                  : ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: filteredVouchers.length,
+                    itemBuilder: (context, index) {
+                      final voucher = filteredVouchers[index];
+                      return VoucherCardWidget(
+                        voucher: voucher,
+                        onTap: () => _handleVoucherTap(voucher),
+                      );
+                    },
+                  ),
         ),
       ],
     );
@@ -496,8 +494,11 @@ class _PromoAndMembershipState extends State<PromoAndMembership>
   void _handlePromoTap(Map<String, dynamic> promo) {
     // Navigate to product detail or show promo details
     final promoId = promo['id'];
-    Navigator.pushNamed(context, '/product-detail',
-        arguments: {'promoId': promoId});
+    Navigator.pushNamed(
+      context,
+      '/product-detail',
+      arguments: {'promoId': promoId},
+    );
   }
 
   void _handleVoucherTap(Map<String, dynamic> voucher) {

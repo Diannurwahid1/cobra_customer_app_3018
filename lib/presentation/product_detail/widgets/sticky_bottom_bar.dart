@@ -34,14 +34,13 @@ class _StickyBottomBarState extends State<StickyBottomBar> {
     // Haptic feedback for iOS
     HapticFeedback.lightImpact();
 
-    // Navigate directly to checkout process with selected quantity
+    // Navigate directly to checkout process with selected product and quantity
     Navigator.pushNamed(
       context,
       AppRoutes.checkoutProcess,
       arguments: {
         'product': {
-          'name':
-              'Dental Unit Chair Premium DU-3000', // Get from parent if needed
+          'name': 'Dental Unit Chair Premium DU-3000',
           'price': widget.price,
           'image':
               'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop',
@@ -55,6 +54,24 @@ class _StickyBottomBarState extends State<StickyBottomBar> {
   void _onAddToCartPressed() {
     // Haptic feedback for iOS
     HapticFeedback.selectionClick();
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Produk ditambahkan ke keranjang ($_quantity item)'),
+        backgroundColor: AppTheme.successLight,
+        duration: const Duration(seconds: 2),
+        action: SnackBarAction(
+          label: 'Lihat Keranjang',
+          textColor: Colors.white,
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.shoppingCart);
+          },
+        ),
+      ),
+    );
+
+    // Call original callback
     widget.onAddToCart();
   }
 

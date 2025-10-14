@@ -34,7 +34,7 @@ class _CheckoutProcessState extends State<CheckoutProcess>
   PaymentMethod? _selectedPaymentMethod;
   bool _termsAccepted = false;
 
-  // Order data from cart
+  // Order data from cart or direct purchase
   List<CartItem> cartItems = [];
   String? promoCode;
   double promoDiscount = 0.0;
@@ -42,6 +42,7 @@ class _CheckoutProcessState extends State<CheckoutProcess>
   double tax = 0.0;
   double shipping = 0.0;
   double total = 0.0;
+  bool isDirectCheckout = false;
 
   @override
   void initState() {
@@ -57,17 +58,78 @@ class _CheckoutProcessState extends State<CheckoutProcess>
       final args =
           ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
       if (args != null) {
-        setState(() {
-          cartItems = args['cartItems'] as List<CartItem>;
-          promoCode = args['promoCode'] as String?;
-          promoDiscount = args['promoDiscount'] as double;
-          subtotal = args['subtotal'] as double;
-          tax = args['tax'] as double;
-          shipping = args['shipping'] as double;
-          total = args['total'] as double;
-        });
+        _handleArguments(args);
       }
     });
+  }
+
+  /// Handle arguments from different navigation sources
+  void _handleArguments(Map<String, dynamic> args) {
+    setState(() {
+      isDirectCheckout = args['directCheckout'] as bool? ?? false;
+
+      if (isDirectCheckout) {
+        // Handle direct checkout from product detail
+        _handleDirectCheckoutArgs(args);
+      } else {
+        // Handle checkout from shopping cart
+        _handleCartCheckoutArgs(args);
+      }
+    });
+  }
+
+  /// Handle direct checkout arguments from "Pesan Sekarang"
+  void _handleDirectCheckoutArgs(Map<String, dynamic> args) {
+    final product = args['product'] as Map<String, dynamic>?;
+    final quantity = args['quantity'] as int? ?? 1;
+
+    if (product != null) {
+      // Create a cart item from the product
+      final productName = product['name'] as String? ?? 'Unknown Product';
+      final priceString = product['price'] as String? ?? '0';
+      final imageUrl = product['image'] as String? ?? '';
+
+      // Extract price from string (e.g., "Rp 25.000.000" -> 25000000)
+      final priceNumeric = _extractPriceFromString(priceString);
+
+      final cartItem = CartItem(
+        id: 'direct_${DateTime.now().millisecondsSinceEpoch}',
+        name: productName,
+        description: 'Dental equipment - direct purchase',
+        price: priceNumeric,
+        quantity: quantity,
+        imageUrl: imageUrl,
+        supplierName: 'Cobra Medical Equipment',
+        availability: 'In Stock',
+        sku: 'DIRECT-${DateTime.now().millisecondsSinceEpoch}',
+      );
+
+      cartItems = [cartItem];
+
+      // Calculate pricing
+      subtotal = priceNumeric * quantity;
+      tax = subtotal * 0.11; // 11% PPN
+      shipping = 25000.0; // Flat shipping rate
+      total = subtotal + tax + shipping;
+    }
+  }
+
+  /// Handle cart checkout arguments
+  void _handleCartCheckoutArgs(Map<String, dynamic> args) {
+    cartItems = args['cartItems'] as List<CartItem>? ?? [];
+    promoCode = args['promoCode'] as String?;
+    promoDiscount = args['promoDiscount'] as double? ?? 0.0;
+    subtotal = args['subtotal'] as double? ?? 0.0;
+    tax = args['tax'] as double? ?? 0.0;
+    shipping = args['shipping'] as double? ?? 0.0;
+    total = args['total'] as double? ?? 0.0;
+  }
+
+  /// Extract numeric price from string format
+  double _extractPriceFromString(String priceString) {
+    // Remove all non-digit characters except decimal points
+    String cleanPrice = priceString.replaceAll(RegExp(r'[^\d]'), '');
+    return double.tryParse(cleanPrice) ?? 0.0;
   }
 
   @override
@@ -126,19 +188,18 @@ class _CheckoutProcessState extends State<CheckoutProcess>
       // Simulate order submission to POS system
       final orderData = {
         'orderId': _generateOrderId(),
-        'items':
-            cartItems
-                .map(
-                  (item) => {
-                    'id': item.id,
-                    'name': item.name,
-                    'sku': item.sku,
-                    'quantity': item.quantity,
-                    'price': item.price,
-                    'total': item.price * item.quantity,
-                  },
-                )
-                .toList(),
+        'items': cartItems
+            .map(
+              (item) => {
+                'id': item.id,
+                'name': item.name,
+                'sku': item.sku,
+                'quantity': item.quantity,
+                'price': item.price,
+                'total': item.price * item.quantity,
+              },
+            )
+            .toList(),
         'customer': {
           'businessName': _selectedAddress?.businessName,
           'address': _selectedAddress?.fullAddress,
@@ -244,20 +305,19 @@ class _CheckoutProcessState extends State<CheckoutProcess>
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(
-              'Error',
-              style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-            ),
-            content: Text(message, style: GoogleFonts.inter()),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Error',
+          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+        ),
+        content: Text(message, style: GoogleFonts.inter()),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
           ),
+        ],
+      ),
     );
   }
 
@@ -276,14 +336,87 @@ class _CheckoutProcessState extends State<CheckoutProcess>
           );
         },
         onTrackOrder: () {
-          // Navigate to order tracking
+          // Navigate to order tracking with order ID
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.orderTracking,
+            arguments: {
+              'orderId': _orderId,
+              'orderData': {
+                'total': total,
+                'status': 'pending',
+                'estimatedDelivery':
+                    DateTime.now().add(const Duration(days: 3)),
+                'items': cartItems
+                    .map((item) => {
+                          'name': item.name,
+                          'quantity': item.quantity,
+                          'price': item.price,
+                        })
+                    .toList(),
+              },
+            },
+          );
         },
+      );
+    }
+
+    // Show error if no items
+    if (cartItems.isEmpty) {
+      return Scaffold(
+        appBar: CustomAppBar(
+          title: 'Checkout',
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: AppTheme.errorLight,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Tidak ada item untuk checkout',
+                style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Silakan tambahkan produk ke keranjang terlebih dahulu.',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  color: AppTheme.textSecondaryLight,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    AppRoutes.productCatalog,
+                    (route) => false,
+                  );
+                },
+                child: Text('Lihat Produk'),
+              ),
+            ],
+          ),
+        ),
       );
     }
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Checkout',
+        title: isDirectCheckout ? 'Pemesanan Langsung' : 'Checkout',
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed:
@@ -323,21 +456,22 @@ class _CheckoutProcessState extends State<CheckoutProcess>
                 ),
 
                 // Step 3: Order Review
-                OrderReviewSection(
-                  cartItems: cartItems,
-                  deliveryAddress: _selectedAddress!,
-                  paymentMethod: _selectedPaymentMethod!,
-                  promoCode: promoCode,
-                  subtotal: subtotal,
-                  promoDiscount: promoDiscount,
-                  tax: tax,
-                  shipping: shipping,
-                  total: total,
-                  termsAccepted: _termsAccepted,
-                  onTermsChanged: (value) {
-                    setState(() => _termsAccepted = value);
-                  },
-                ),
+                if (_selectedAddress != null && _selectedPaymentMethod != null)
+                  OrderReviewSection(
+                    cartItems: cartItems,
+                    deliveryAddress: _selectedAddress!,
+                    paymentMethod: _selectedPaymentMethod!,
+                    promoCode: promoCode,
+                    subtotal: subtotal,
+                    promoDiscount: promoDiscount,
+                    tax: tax,
+                    shipping: shipping,
+                    total: total,
+                    termsAccepted: _termsAccepted,
+                    onTermsChanged: (value) {
+                      setState(() => _termsAccepted = value);
+                    },
+                  ),
               ],
             ),
           ),
@@ -348,65 +482,61 @@ class _CheckoutProcessState extends State<CheckoutProcess>
               padding: const EdgeInsets.all(20),
               child: SizedBox(
                 width: double.infinity,
-                child:
-                    _isSubmitting
-                        ? Container(
-                          height: 56,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryLight.withAlpha(153),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation(
-                                      Colors.white,
-                                    ),
+                child: _isSubmitting
+                    ? Container(
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryLight.withAlpha(153),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Colors.white,
                                   ),
                                 ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  'Memproses Pesanan...',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                'Memproses Pesanan...',
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
                                 ),
-                              ],
-                            ),
-                          ),
-                        )
-                        : ElevatedButton(
-                          onPressed:
-                              _validateCurrentStep()
-                                  ? (_currentStep == 2
-                                      ? _submitOrder
-                                      : _nextStep)
-                                  : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.accentLight,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 2,
-                          ),
-                          child: Text(
-                            _currentStep == 2 ? 'Kirim Pesanan' : 'Lanjutkan',
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
+                              ),
+                            ],
                           ),
                         ),
+                      )
+                    : ElevatedButton(
+                        onPressed: _validateCurrentStep()
+                            ? (_currentStep == 2 ? _submitOrder : _nextStep)
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.accentLight,
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 2,
+                        ),
+                        child: Text(
+                          _currentStep == 2 ? 'Kirim Pesanan' : 'Lanjutkan',
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),
