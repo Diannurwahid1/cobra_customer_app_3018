@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
-import '../../theme/app_theme.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../../widgets/custom_icon_widget.dart';
 import './widgets/filter_bottom_sheet_widget.dart';
 import './widgets/filter_chip_widget.dart';
 import './widgets/product_grid_widget.dart';
@@ -29,99 +27,6 @@ class _ProductCatalogState extends State<ProductCatalog> {
 
   // Mock data for dental equipment products
   final List<Map<String, dynamic>> _mockProducts = [
-    // New real dental products at the top
-    {
-      "id": 100,
-      "name": "C-Puma",
-      "sku": "1555",
-      "category": "DENTAL EQUIPMENT",
-      "brand": "Woodpecker",
-      "price": "Rp 15.500.000",
-      "priceValue": 15500000,
-      "image":
-          "https://www.cobradental.co.id/userfiles/product/6805fcb91d473.jpg",
-      "availability": "In Stock",
-      "isPopular": true,
-      "dateAdded": "2024-10-14",
-      "description":
-          "Dental micromotor dengan power 120W, kecepatan 100–200.000 rpm, LED >25.000 lux, torsi 3.5 N·cm, berat 87 g.",
-      "semanticLabel":
-          "C-Puma dental micromotor in white and silver metallic finish with LED light attachment",
-    },
-    {
-      "id": 101,
-      "name": "Light Curing Woodpecker LED D",
-      "sku": "1269.0",
-      "category": "DENTAL EQUIPMENT",
-      "brand": "Woodpecker",
-      "price": "Rp 8.500.000",
-      "priceValue": 8500000,
-      "image":
-          "https://www.cobradental.co.id/userfiles/product/6805f9e653f38.png",
-      "availability": "In Stock",
-      "isPopular": true,
-      "dateAdded": "2024-10-14",
-      "description":
-          "Lampu curing light genggam untuk polimerisasi bahan restorasi gigi. Intensitas 1000–1200 mW/cm², pengatur waktu 5–40 detik, berat 143g.",
-      "semanticLabel":
-          "Handheld LED curing light device in blue and white with digital display screen",
-    },
-    {
-      "id": 102,
-      "name": "Ultrasonic Scaller UDS-K LED Woodpecker",
-      "sku": "1316",
-      "category": "DENTAL EQUIPMENT",
-      "brand": "Woodpecker",
-      "price": "Rp 12.000.000",
-      "priceValue": 12000000,
-      "image":
-          "https://www.cobradental.co.id/userfiles/product/6805f5233b133.png",
-      "availability": "In Stock",
-      "isPopular": true,
-      "dateAdded": "2024-10-14",
-      "description":
-          "Scaler ultrasonik dengan handpiece optik dan automatic frequency tracing untuk performa stabil dan efisien.",
-      "semanticLabel":
-          "Professional ultrasonic dental scaler with LED handpiece in white and blue color scheme",
-    },
-    {
-      "id": 103,
-      "name": "Dental Diode Laser Device Type LX 16 PLUS",
-      "sku": "1732",
-      "category": "DENTAL EQUIPMENT",
-      "brand": "Woodpecker",
-      "price": "Rp 35.000.000",
-      "priceValue": 35000000,
-      "image":
-          "https://www.cobradental.co.id/userfiles/product/6805fb6add478.png",
-      "availability": "In Stock",
-      "isPopular": true,
-      "dateAdded": "2024-10-14",
-      "description":
-          "Woodpecker LX 16 Plus: laser dioda dental dengan 3 panjang gelombang (450/650/976 nm) untuk berbagai perawatan klinis.",
-      "semanticLabel":
-          "Advanced dental diode laser machine with digital control panel and multiple wavelength settings",
-    },
-    {
-      "id": 104,
-      "name": "Light Curing LED B Woodpecker",
-      "sku": "1207",
-      "category": "DENTAL EQUIPMENT",
-      "brand": "Woodpecker",
-      "price": "Rp 7.200.000",
-      "priceValue": 7200000,
-      "image":
-          "https://www.cobradental.co.id/userfiles/product/6805f699819c3.png",
-      "availability": "In Stock",
-      "isPopular": false,
-      "dateAdded": "2024-10-14",
-      "description":
-          "Lampu curing light LED seri B yang ergonomis dan ringan, cocok untuk pengerasan resin komposit dan pemutihan gigi.",
-      "semanticLabel":
-          "Compact LED curing light in ergonomic white design with blue accent trim",
-    },
-
-    // Existing dummy products below
     {
       "id": 1,
       "name": "Dental Chair Unit Sirona C4+",
@@ -135,9 +40,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": true,
       "dateAdded": "2024-09-20",
       "description":
-          "Unit dental chair premium dengan teknologi terdepan untuk kenyamanan pasien dan efisiensi dokter.",
-      "semanticLabel":
-          "Modern dental chair unit in white and silver with adjustable headrest and LED lighting",
+          "Unit dental chair premium dengan teknologi terdepan untuk kenyamanan pasien dan efisiensi dokter."
     },
     {
       "id": 2,
@@ -152,9 +55,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": false,
       "dateAdded": "2024-09-18",
       "description":
-          "Ultrasonic scaler dengan teknologi piezo untuk pembersihan karang gigi yang efektif.",
-      "semanticLabel":
-          "Professional ultrasonic scaler with multiple tip attachments in medical white casing",
+          "Ultrasonic scaler dengan teknologi piezo untuk pembersihan karang gigi yang efektif."
     },
     {
       "id": 3,
@@ -169,9 +70,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": true,
       "dateAdded": "2024-09-22",
       "description":
-          "Sensor digital X-ray dengan resolusi tinggi untuk diagnosis yang akurat.",
-      "semanticLabel":
-          "Digital X-ray sensor with connecting cables and protective sleeve in medical equipment setup",
+          "Sensor digital X-ray dengan resolusi tinggi untuk diagnosis yang akurat."
     },
     {
       "id": 4,
@@ -186,9 +85,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": false,
       "dateAdded": "2024-09-15",
       "description":
-          "Autoclave sterilizer dengan teknologi vacuum untuk sterilisasi instrumen yang sempurna.",
-      "semanticLabel":
-          "Stainless steel autoclave sterilizer with digital display and control knobs",
+          "Autoclave sterilizer dengan teknologi vacuum untuk sterilisasi instrumen yang sempurna."
     },
     {
       "id": 5,
@@ -203,9 +100,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": true,
       "dateAdded": "2024-09-19",
       "description":
-          "Handpiece berkecepatan tinggi dengan teknologi ceramic bearing untuk performa optimal.",
-      "semanticLabel":
-          "High-speed dental handpiece with ceramic bearing in metallic silver finish with ergonomic grip",
+          "Handpiece berkecepatan tinggi dengan teknologi ceramic bearing untuk performa optimal."
     },
     {
       "id": 6,
@@ -220,9 +115,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": false,
       "dateAdded": "2024-09-17",
       "description":
-          "LED curing light dengan intensitas cahaya optimal untuk polymerisasi komposit.",
-      "semanticLabel":
-          "Professional LED curing light with adjustable intensity settings in sleek white design",
+          "LED curing light dengan intensitas cahaya optimal untuk polymerisasi komposit."
     },
     {
       "id": 7,
@@ -237,9 +130,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": false,
       "dateAdded": "2024-09-21",
       "description":
-          "Kompresor dental dengan teknologi oil-free untuk udara bersih dan kering.",
-      "semanticLabel":
-          "Oil-free dental compressor unit in industrial white with digital pressure gauge and controls",
+          "Kompresor dental dengan teknologi oil-free untuk udara bersih dan kering."
     },
     {
       "id": 8,
@@ -254,9 +145,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       "isPopular": true,
       "dateAdded": "2024-09-16",
       "description":
-          "Kit komposit dengan berbagai shade untuk restorasi estetik yang natural.",
-      "semanticLabel":
-          "Dental composite kit with multiple shade samples and applicator tools in organized case",
+          "Kit komposit dengan berbagai shade untuk restorasi estetik yang natural."
     },
   ];
 
@@ -318,10 +207,9 @@ class _ProductCatalogState extends State<ProductCatalog> {
                                 onPressed: _showFilterBottomSheet,
                                 icon: CustomIconWidget(
                                   iconName: 'filter_list',
-                                  color:
-                                      _hasActiveFilters()
-                                          ? AppTheme.primaryLight
-                                          : colorScheme.onSurfaceVariant,
+                                  color: _hasActiveFilters()
+                                      ? AppTheme.primaryLight
+                                      : colorScheme.onSurfaceVariant,
                                   size: 20,
                                 ),
                               ),
@@ -392,24 +280,23 @@ class _ProductCatalogState extends State<ProductCatalog> {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _onRefresh,
-                child:
-                    _filteredProducts.isEmpty && !_isLoading
-                        ? _buildEmptyState()
-                        : _isGridView
+                child: _filteredProducts.isEmpty && !_isLoading
+                    ? _buildEmptyState()
+                    : _isGridView
                         ? ProductGridWidget(
-                          products: _filteredProducts,
-                          isLoading: _isLoading,
-                          onLoadMore: _loadMoreProducts,
-                          onProductTap: _onProductTap,
-                          onOrderTap: _onOrderTap,
-                        )
+                            products: _filteredProducts,
+                            isLoading: _isLoading,
+                            onLoadMore: _loadMoreProducts,
+                            onProductTap: _onProductTap,
+                            onOrderTap: _onOrderTap,
+                          )
                         : ProductListWidget(
-                          products: _filteredProducts,
-                          isLoading: _isLoading,
-                          onLoadMore: _loadMoreProducts,
-                          onProductTap: _onProductTap,
-                          onOrderTap: _onOrderTap,
-                        ),
+                            products: _filteredProducts,
+                            isLoading: _isLoading,
+                            onLoadMore: _loadMoreProducts,
+                            onProductTap: _onProductTap,
+                            onOrderTap: _onOrderTap,
+                          ),
               ),
             ),
           ],
@@ -518,7 +405,10 @@ class _ProductCatalogState extends State<ProductCatalog> {
             decoration: BoxDecoration(
               color: AppTheme.errorLight.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppTheme.errorLight, width: 1),
+              border: Border.all(
+                color: AppTheme.errorLight,
+                width: 1,
+              ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -526,9 +416,9 @@ class _ProductCatalogState extends State<ProductCatalog> {
                 Text(
                   'Hapus Semua',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: AppTheme.errorLight,
-                    fontWeight: FontWeight.w600,
-                  ),
+                        color: AppTheme.errorLight,
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
                 SizedBox(width: 1.w),
                 CustomIconWidget(
@@ -618,16 +508,15 @@ class _ProductCatalogState extends State<ProductCatalog> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => FilterBottomSheetWidget(
-            currentFilters: _currentFilters,
-            onFiltersApplied: (filters) {
-              setState(() {
-                _currentFilters = filters;
-              });
-              _applyFiltersAndSearch();
-            },
-          ),
+      builder: (context) => FilterBottomSheetWidget(
+        currentFilters: _currentFilters,
+        onFiltersApplied: (filters) {
+          setState(() {
+            _currentFilters = filters;
+          });
+          _applyFiltersAndSearch();
+        },
+      ),
     );
   }
 
@@ -635,16 +524,15 @@ class _ProductCatalogState extends State<ProductCatalog> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => SortBottomSheetWidget(
-            currentSort: _currentSort,
-            onSortSelected: (sortKey) {
-              setState(() {
-                _currentSort = sortKey;
-              });
-              _applySorting();
-            },
-          ),
+      builder: (context) => SortBottomSheetWidget(
+        currentSort: _currentSort,
+        onSortSelected: (sortKey) {
+          setState(() {
+            _currentSort = sortKey;
+          });
+          _applySorting();
+        },
+      ),
     );
   }
 
@@ -654,25 +542,23 @@ class _ProductCatalogState extends State<ProductCatalog> {
     // Apply search filter
     final query = _searchController.text.toLowerCase();
     if (query.isNotEmpty) {
-      filtered =
-          filtered.where((product) {
-            final name = (product['name'] as String).toLowerCase();
-            final category = (product['category'] as String).toLowerCase();
-            final brand = (product['brand'] as String).toLowerCase();
-            return name.contains(query) ||
-                category.contains(query) ||
-                brand.contains(query);
-          }).toList();
+      filtered = filtered.where((product) {
+        final name = (product['name'] as String).toLowerCase();
+        final category = (product['category'] as String).toLowerCase();
+        final brand = (product['brand'] as String).toLowerCase();
+        return name.contains(query) ||
+            category.contains(query) ||
+            brand.contains(query);
+      }).toList();
     }
 
     // Apply category filter
     if (_currentFilters['categories'] != null) {
       final categories = _currentFilters['categories'] as List<String>;
       if (categories.isNotEmpty) {
-        filtered =
-            filtered
-                .where((product) => categories.contains(product['category']))
-                .toList();
+        filtered = filtered
+            .where((product) => categories.contains(product['category']))
+            .toList();
       }
     }
 
@@ -680,10 +566,9 @@ class _ProductCatalogState extends State<ProductCatalog> {
     if (_currentFilters['brands'] != null) {
       final brands = _currentFilters['brands'] as List<String>;
       if (brands.isNotEmpty) {
-        filtered =
-            filtered
-                .where((product) => brands.contains(product['brand']))
-                .toList();
+        filtered = filtered
+            .where((product) => brands.contains(product['brand']))
+            .toList();
       }
     }
 
@@ -694,20 +579,18 @@ class _ProductCatalogState extends State<ProductCatalog> {
       final maxPrice =
           _currentFilters['maxPrice'] as double? ?? double.infinity;
 
-      filtered =
-          filtered.where((product) {
-            final price = product['priceValue'] as int;
-            return price >= minPrice && price <= maxPrice;
-          }).toList();
+      filtered = filtered.where((product) {
+        final price = product['priceValue'] as int;
+        return price >= minPrice && price <= maxPrice;
+      }).toList();
     }
 
     // Apply availability filter
     if (_currentFilters['availability'] != null) {
       final availability = _currentFilters['availability'] as String;
-      filtered =
-          filtered
-              .where((product) => product['availability'] == availability)
-              .toList();
+      filtered = filtered
+          .where((product) => product['availability'] == availability)
+          .toList();
     }
 
     setState(() {
@@ -722,20 +605,16 @@ class _ProductCatalogState extends State<ProductCatalog> {
 
     switch (_currentSort) {
       case 'price_low':
-        sorted.sort(
-          (a, b) => (a['priceValue'] as int).compareTo(b['priceValue'] as int),
-        );
+        sorted.sort((a, b) =>
+            (a['priceValue'] as int).compareTo(b['priceValue'] as int));
         break;
       case 'price_high':
-        sorted.sort(
-          (a, b) => (b['priceValue'] as int).compareTo(a['priceValue'] as int),
-        );
+        sorted.sort((a, b) =>
+            (b['priceValue'] as int).compareTo(a['priceValue'] as int));
         break;
       case 'newest':
-        sorted.sort(
-          (a, b) =>
-              (b['dateAdded'] as String).compareTo(a['dateAdded'] as String),
-        );
+        sorted.sort((a, b) =>
+            (b['dateAdded'] as String).compareTo(a['dateAdded'] as String));
         break;
       case 'popular':
         sorted.sort((a, b) {
@@ -746,13 +625,11 @@ class _ProductCatalogState extends State<ProductCatalog> {
         break;
       case 'name_asc':
         sorted.sort(
-          (a, b) => (a['name'] as String).compareTo(b['name'] as String),
-        );
+            (a, b) => (a['name'] as String).compareTo(b['name'] as String));
         break;
       case 'name_desc':
         sorted.sort(
-          (a, b) => (b['name'] as String).compareTo(a['name'] as String),
-        );
+            (a, b) => (b['name'] as String).compareTo(a['name'] as String));
         break;
       case 'relevance':
       default:
@@ -797,7 +674,11 @@ class _ProductCatalogState extends State<ProductCatalog> {
   }
 
   void _onProductTap(Map<String, dynamic> product) {
-    Navigator.pushNamed(context, '/product-detail', arguments: product);
+    Navigator.pushNamed(
+      context,
+      '/product-detail',
+      arguments: product,
+    );
   }
 
   void _onOrderTap(Map<String, dynamic> product) {
